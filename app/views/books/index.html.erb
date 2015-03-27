@@ -2,6 +2,23 @@
 <div class="row">
   <h1>List all category</h1>
   <div class="search-book">
+    <%= form_tag books_path, method: 'get', id: "books_search" do %>
+      <div class="search-region">
+        <div class="search-form">
+          Search
+          <%= text_field_tag :search, params[:search] %>
+        </div>
+        <div class="filter-select-form">
+          <%= select_tag(:filter, options_for_select([['Title', 1], ['Author', 2], ['Rating', 3], ['Category', 4], ['Favorite', 5]], 1)) %>
+        </div>
+        <div class="search-button">
+          <%= submit_tag "Search", class: "btn btn-primary" %>
+        </div>
+      </div>
+    <% end %>
+    <% unless params[:filter].nil? %>    
+      <span>Result for search: <%= pluralize(@books.count, "book", "books") %></span>
+    <% end %>
   </div>  
   <ul class="categories_list">
     <% if current_user.is_admin? %>
