@@ -35,22 +35,19 @@ class Book < ActiveRecord::Base
     end
   end
 
-  def self.search(search, filter, user)
+  def self.search(search, filter)
     if search
-      if filter == "1"
+      if filter == "title"
         where("title LIKE ?", "%#{search}%")
-      elsif filter == "2"
+      elsif filter == "author"
         where("author LIKE ?", "%#{search}%")
       elsif filter == "3"
         where("rating LIKE ?", "%#{search}%")
       elsif filter == "4"
         joins(:category).where("name LIKE ?", "%#{search}%")
-      elsif filter == "5"
-        book_ids = "SELECT DISTINCT book_id FROM favorites WHERE user_id = :user_id"
-        where("id IN (#{book_ids})", user_id: user.id) 
-      end
+      end  
     else
       all
     end     
-  end    
+  end     
 end
